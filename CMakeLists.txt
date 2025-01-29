@@ -46,7 +46,10 @@ pico_enable_stdio_usb(Tarefa_U4_Interruptions 1)
 
 # Add the standard library to the build
 target_link_libraries(Tarefa_U4_Interruptions
-        pico_stdlib)
+        pico_stdlib
+        hardware_pio
+	    hardware_adc
+        pico_bootrom)
 
 # Add the standard include files to the build
 target_include_directories(Tarefa_U4_Interruptions PRIVATE
