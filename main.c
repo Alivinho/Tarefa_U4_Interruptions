@@ -23,6 +23,9 @@
 #define LED_BLUE_PIN 12
 #define LED_GREEN_PIN 11
 
+extern void animacao_1(PIO pio, uint sm);
+
+
 
 void initLeds(){
    gpio_init(LED_RED_PIN);    
@@ -42,9 +45,15 @@ void initButtons(){
 
     gpio_init(BUTTON_B);             // Inicializa o botão
     gpio_set_dir(BUTTON_B, GPIO_IN); // Configura o pino como entrada
-    gpio_pull_up(BUTTON_B)
+    gpio_pull_up(BUTTON_B);
 }
 
+
+void desenhar_matriz(PIO pio, uint sm, const uint32_t *desenho) {
+    for (int i = 0; i < NUM_PIXELS; i++) { // Aplica a cor ao padrão
+        pio_sm_put_blocking(pio, sm, desenho[24-i]);
+    }
+}
 
 int main(){
     PIO pio = pio0; 
@@ -61,7 +70,6 @@ int main(){
     stdio_init_all();
 
     while (true) {
-        printf("Hello, world!\n");
-        sleep_ms(1000);
+        animacao_1(pio, sm);
     }
 }
