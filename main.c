@@ -29,9 +29,7 @@ extern void animacao_1(PIO pio, uint sm);
 static volatile uint32_t last_time = 0;  // Variável para debouce
 static volatile uint numero_atual = 0;   // Variável para armazenar o número atual
 
-// Contadores de pressões dos botões
-static volatile uint32_t count_A = 0;
-static volatile uint32_t count_B = 0;
+
 
 // Defina 'pio' e 'sm' como variáveis globais
 PIO pio = pio0;  
@@ -128,6 +126,6 @@ void gpio_irq_handler(uint gpio, uint32_t events) {
         }
 
         //desenhar_numero_na_matriz_de_leds(r, g, b, numero_atual);
-        //animacao_1(pio, sm);
+        animacao_1(pio, sm);
     }
 }
