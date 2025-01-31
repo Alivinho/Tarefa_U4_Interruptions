@@ -35,7 +35,10 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(Tarefa_U4_Interruptions Tarefa_U4_Interruptions.c )
+add_executable(Tarefa_U4_Interruptions Tarefa_U4_Interruptions.c
+    MatrizLed_5x5/matrizLed.c
+
+)
 
 pico_set_program_name(Tarefa_U4_Interruptions "Tarefa_U4_Interruptions")
 pico_set_program_version(Tarefa_U4_Interruptions "0.1")
