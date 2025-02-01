@@ -23,7 +23,7 @@
 #define LED_BLUE_PIN 12
 #define LED_GREEN_PIN 11
 
-extern void animacao_1(PIO pio, uint sm);
+extern void animacao_1(PIO pio, uint sm, uint numero_atual);
 
 // Variáveis globais
 static volatile uint32_t last_time = 0;  // Variável para debouce
@@ -102,7 +102,7 @@ int main() {
     // Loop principal
     while (true) {
         piscar_led_vermelho();  // Pisca o LED vermelho a cada 1 segundo
-        sleep_ms(1000);
+        
     }
 }
 
@@ -125,7 +125,6 @@ void gpio_irq_handler(uint gpio, uint32_t events) {
             printf("Número atual: %d\n", numero_atual);
         }
 
-        //desenhar_numero_na_matriz_de_leds(r, g, b, numero_atual);
-        animacao_1(pio, sm);
+        animacao_1(pio, sm, numero_atual);
     }
 }
