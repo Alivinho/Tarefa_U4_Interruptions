@@ -17,7 +17,7 @@ void desenhar_matriz(PIO pio, uint sm, const uint32_t *desenho);
 
 // Função de animação com 5 frames (efeito de onda)
 void animacao_1(PIO pio, uint sm, uint numero_atual) {
-    
+
     
     const uint32_t numeros[10][NUM_PIXELS] = {
         {
@@ -94,9 +94,8 @@ void animacao_1(PIO pio, uint sm, uint numero_atual) {
     };
 
     // Exibir o "Frame" que corresponde ao numero atual 
-    for (int i = 0; i < 10; i++) {
-        desenhar_matriz(pio, sm, numeros[numero_atual]); 
-    }
+    desenhar_matriz(pio, sm, numeros[numero_atual]); 
+
 
     
 }
