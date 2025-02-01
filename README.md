@@ -1,6 +1,6 @@
-# Projeto de Controle de Matriz de LED com Raspberry Pi Pico
+# Interrupções e Debouncing no Raspberry Pi Pico W
 
-Este projeto utiliza o **Raspberry Pi Pico** para controlar uma matriz de LEDs **WS2812b** de 5x5 pixels, juntamente com um **LED RGB** e **botões** para interação. O código foi desenvolvido como parte de uma tarefa do curso de **capacitação em sistemas embarcados - Embarcatech**, desenvolvido pelo **Cepedi**.
+Este projeto utiliza o Raspberry Pi Pico para controlar uma matriz de LEDs WS2812b de 5x5 pixels, juntamente com um LED RGB e botões para interação. O código foi desenvolvido como parte de uma tarefa do curso de capacitação em sistemas embarcados - Embarcatech, promovido pelo Cepedi. O principal objetivo do projeto foi a abordagem e o tratamento de conceitos como Interrupções e Debouncing, com foco na implementação prática desses conceitos em um sistema embarcado.
 
 ## Componentes Utilizados
 - **Raspberry Pi Pico**: Controlador principal do sistema.
