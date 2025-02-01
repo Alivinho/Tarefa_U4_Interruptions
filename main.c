@@ -25,19 +25,18 @@
 
 extern void animacao_1(PIO pio, uint sm, uint numero_atual);
 
-// Variáveis globais
+
 static volatile uint32_t last_time = 0;  // Variável para debouce
 static volatile uint numero_atual = 0;   // Variável para armazenar o número atual
 
 
-
-// Defina 'pio' e 'sm' como variáveis globais
+// Inicialização do 'pio' e 'sm' 
 PIO pio = pio0;  
 uint sm;
 
-// Acionamento da matriz de LEDs - ws2812b
+// Acionamento da matriz de LEDs - ws2812b - Desenha a animação na Matriz 
 void desenhar_matriz(PIO pio, uint sm, const uint32_t *desenho) {
-    for (int i = 0; i < NUM_PIXELS; i++) { // Aplica a cor ao padrão
+    for (int i = 0; i < NUM_PIXELS; i++) { 
         pio_sm_put_blocking(pio, sm, desenho[24-i]);
     }
 }
@@ -46,7 +45,7 @@ void desenhar_matriz(PIO pio, uint sm, const uint32_t *desenho) {
 void gpio_irq_handler(uint gpio, uint32_t events);
 
 
-// Funções de inicialização dos LEDs e botões
+// Função de inicialização dos LED RGB
 void initLeds() {
     gpio_init(LED_RED_PIN);    
     gpio_set_dir(LED_RED_PIN, GPIO_OUT);
@@ -58,6 +57,7 @@ void initLeds() {
     gpio_set_dir(LED_GREEN_PIN, GPIO_OUT); 
 }
 
+// Função de Inicialização dos Botões
 void initButtons() {
     gpio_init(BUTTON_A);
     gpio_set_dir(BUTTON_A, GPIO_IN);
@@ -71,14 +71,14 @@ void initButtons() {
 // Função para piscar o LED vermelho
 void piscar_led_vermelho() {
     for (int i = 0; i < 5; i++) {
-        gpio_put(LED_RED_PIN, 1);  // Acende o LED vermelho
-        sleep_ms(100);              // Mantém o LED aceso por 100ms
-        gpio_put(LED_RED_PIN, 0);  // Apaga o LED vermelho
-        sleep_ms(100);              // Mantém o LED apagado por 100ms
+        gpio_put(LED_RED_PIN, 1);  
+        sleep_ms(100);              
+        gpio_put(LED_RED_PIN, 0);  
+        sleep_ms(100);              
     }
 }
 
-// Função principal
+
 int main() {
     stdio_init_all();
 
@@ -99,10 +99,11 @@ int main() {
     gpio_set_irq_enabled_with_callback(BUTTON_A, GPIO_IRQ_EDGE_FALL, true, &gpio_irq_handler);
     gpio_set_irq_enabled_with_callback(BUTTON_B, GPIO_IRQ_EDGE_FALL, true, &gpio_irq_handler);
 
-    // Loop principal
+    
     while (true) {
-        piscar_led_vermelho();  // Pisca o LED vermelho a cada 1 segundo
-        
+
+        piscar_led_vermelho();  
+
     }
 }
 
@@ -111,20 +112,31 @@ void gpio_irq_handler(uint gpio, uint32_t events) {
     uint32_t current_time = time_us_32();
 
     // Verifica se o tempo de debouncing passou
-    if (current_time - last_time > 200000) {  // 200ms para debouncing
+    if (current_time - last_time > 200000) {  
         last_time = current_time;
 
-        if (gpio == BUTTON_A) {
-            numero_atual++;
-            printf("Botão A pressionado. ");
-            printf("Número atual: %d\n", numero_atual);
-        }
-        if (gpio == BUTTON_B) {
-            --numero_atual;
-            printf("Botão B pressionado. ");
-            printf("Número atual: %d\n", numero_atual);
-        }
+        printf("Interrupção detectada no GPIO %d\n", gpio);
 
+        if (gpio == BUTTON_A) {
+            if (numero_atual < 9) {
+                numero_atual++;
+                printf("Botão A pressionado. Número atual: %d\n", numero_atual);
+            } else {
+                printf("Botão A pressionado, mas número já está no máximo (9)\n");
+            }
+        }
+        
+        if (gpio == BUTTON_B) {
+            if (numero_atual > 0) {
+                numero_atual--;
+                printf("Botão B pressionado. Número atual: %d\n", numero_atual);
+            } else {
+                printf("Botão B pressionado, mas número já está no mínimo (0)\n");
+            }
+        }
+        
         animacao_1(pio, sm, numero_atual);
     }
 }
+
+
